@@ -34,10 +34,22 @@ JSON output:
 repoguard . --format json
 ```
 
+SARIF 2.1.0 output for code-scanning integrations:
+
+```bash
+repoguard . --format sarif > repoguard.sarif
+```
+
 Fail when a high-severity finding is present:
 
 ```bash
 repoguard . --fail-on high
+```
+
+Formats and exit policy can be combined:
+
+```bash
+repoguard . --format sarif --fail-on high > repoguard.sarif
 ```
 
 You can also run it without installation:
@@ -55,6 +67,10 @@ MEDIUM RG101 .github/workflows/release.yml:8 Workflow grants write-all permissio
 2 finding(s): 1 high, 1 medium
 ```
 
+## Integration model
+
+RepoGuard can be used locally, as a pre-commit-style check, or inside CI. JSON is convenient for custom automation, while SARIF provides a standard interchange format understood by many code-scanning systems. RepoGuard itself does not upload findings anywhere.
+
 ## Philosophy
 
 The project favors transparent, auditable checks with no network access. Scans remain on the local machine unless a user explicitly runs RepoGuard in their own CI environment.
@@ -64,6 +80,7 @@ The project favors transparent, auditable checks with no network access. Scans r
 ```bash
 python -m pip install -e .
 python -m unittest discover -s tests -v
+repoguard . --fail-on high
 ```
 
 ## Contributing
